@@ -91,7 +91,7 @@ services:
       - ./airflow/postgres:/var/lib/postgresql/data   
 
   airflow-init:
-    #user: "${AIRFLOW_UID:-50000}:0"
+    user: "${AIRFLOW_UID:-50000}:0"
     build: 
       context: .             
       dockerfile: airflow/Dockerfile
@@ -133,7 +133,7 @@ services:
             --email admin@example.com
 
   airflow-webserver:
-    #user: "${AIRFLOW_UID:-50000}:0"
+    user: "${AIRFLOW_UID:-50000}:0"
     build: 
       context: .             
       dockerfile: airflow/Dockerfile
@@ -170,7 +170,7 @@ services:
     command: webserver
 
   airflow-scheduler:
-    #user: "${AIRFLOW_UID:-50000}:0"
+    user: "${AIRFLOW_UID:-50000}:0"
     build: 
       context: .             
       dockerfile: airflow/Dockerfile
