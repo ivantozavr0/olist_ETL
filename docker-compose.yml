@@ -43,36 +43,6 @@ services:
     ports:
       - "8082:8081"
       
-  jupyter:
-    build: 
-      context: .             
-      dockerfile: jupyter/Dockerfile
-    container_name: jupyter
-    ports:
-      - "8889:8888"
-    environment:
-      JUPYTER_TOKEN: pswd
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}      
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_USER}
-      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
-      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
-      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}   
-      PYTHONPATH: /opt/spark/jobs
-      JOBS_LOG_PATH: /opt/airflow/jobs-logs
-      SPARK_MASTER: spark://spark-master:7077
-      DATA_DIR: /opt/project/data
-      MINIO_BUCKET: olist
-      QUARANTINE_LAYER: quarantine
-      RAW_LAYER: raw
-      BRONZE_LAYER: bronze
-      SILVER_LAYER: silver
-    volumes:
-      - ./notebooks:/opt/spark/work
-      - ./jobs:/opt/spark/jobs
-      - ./clickhouse-schema:/opt/spark/clickhouse-schema
-      - ./jobs-logs:/opt/airflow/jobs-logs
-      - ./data:/opt/project/data
-      
   minio:
     image: minio/minio
     container_name: minio
