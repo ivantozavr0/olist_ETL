@@ -25,6 +25,6 @@ RUN ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark
 ENV SPARK_HOME=/opt/spark
 ENV PATH=$PATH:$SPARK_HOME/bin
 
-COPY ./jars/*.jar /opt/spark/jars/
+#COPY ./jars/*.jar /opt/spark/jars/
 
 USER airflow
