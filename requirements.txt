@@ -1,0 +1,3 @@
+s3fs==0.4.2
+clickhouse-connect==0.14.1
+kagglehub
