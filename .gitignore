@@ -1,8 +1,6 @@
 __pycache__/
 *.pyc
 
-jobs-logs/
-
 minio-data/
 
 metabase/data/
@@ -12,8 +10,8 @@ notebooks/.ipynb_checkpoints/
 
 *.log
 
-airflow/airflow-logs/
 airflow/postgres/
+airflow/airflow-logs/scheduler/
 
 clickhouse_data/
 
