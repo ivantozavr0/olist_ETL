@@ -13,6 +13,8 @@ minio_login = os.getenv("MINIO_ROOT_USER")
 minio_pass = os.getenv("MINIO_ROOT_PASSWORD")
 DATA_DIR = os.getenv("DATA_DIR")
 
+os.environ['KAGGLEHUB_CACHE'] = '/tmp'
+
 datasets = [f"{f}.csv" for f in[
     "olist_orders_dataset",
     "olist_customers_dataset",

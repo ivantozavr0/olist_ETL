@@ -19,6 +19,11 @@ logger = get_logger('star_log.log', 'star_logs')
 #### задаем структуру базы данных
 def init_database(name):
 
+    def create_tables(sql_path):
+        for file in sql_path.glob("*.sql"):
+            with open(file) as f:
+                client.command(f.read())
+
     client = get_client(os.getenv("CLICKHOUSE_DB"))
     client.command(f"create database if not exists {name}")
     client.close()
@@ -27,16 +32,11 @@ def init_database(name):
     
     #### инициализация звездной структуры
     sql_path = Path("/opt/spark/clickhouse-schema/star-schema")
-
-    for file in sql_path.glob("*.sql"):
-        with open(file) as f:
-            client.command(f.read())
+    create_tables(sql_path)
     
     #### инициализация материализованных представлений
     sql_path = Path("/opt/spark/clickhouse-schema/views")       
-    for file in sql_path.glob("*.sql"):
-        with open(file) as f:
-            client.command(f.read())
+    create_tables(sql_path)
             
     client.close()
 

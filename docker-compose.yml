@@ -214,7 +214,6 @@ services:
     ports:
       - "3000:3000"  
     volumes:
-      - ./metabase/plugins:/plugins  
       - ./metabase/data:/metabase.db  
     environment:
       MB_DB_TYPE: h2

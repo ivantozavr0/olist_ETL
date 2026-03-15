@@ -1,5 +1,7 @@
 FROM metabase/metabase:latest
 
+USER root
+
 RUN mkdir -p /plugins
 
 RUN curl -L -o /plugins/clickhouse-jdbc-0.8.4-shaded.jar \
