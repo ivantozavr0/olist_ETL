@@ -6,7 +6,7 @@ with reviews as (
     select 
     fo.order_id,
     avg(review_score) as review_score
-    from olist.fact_orders fo
+    from olist.dim_reviews fo
     left join olist.fact_order_items foi using (order_id)
     group by fo.order_id
     having (count(*) = 1) or (countDistinct(foi.product_id) = 1)

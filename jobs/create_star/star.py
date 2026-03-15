@@ -137,6 +137,18 @@ def make_delivery_dim(df_orders):
         
     return dim_delivery
     
+    
+def make_reviews_dim(df_reviews):
+    reviews = (
+        df_reviews
+        .groupBy(
+            "order_id",
+        )
+        .agg(F.avg("review_score").alias('review_score'))
+    )
+    
+    return reviews
+    
 
 def calc_payments_per_order(df_payments):
     payments_per_order = (
@@ -148,18 +160,6 @@ def calc_payments_per_order(df_payments):
     )
         
     return payments_per_order
-    
-    
-def prepare_reviews(df_reviews):
-    reviews = (
-        df_reviews
-        .groupBy(
-            "order_id",
-        )
-        .agg(F.avg("review_score").alias('review_score'))
-    )
-    
-    return reviews
     
     
 def make_orders_enriched(df_orders, df_customers):
@@ -180,7 +180,7 @@ def make_orders_enriched(df_orders, df_customers):
             
             
             
-def make_fact_order_items(df_items, orders_enriched, df_payments, df_reviews):
+def make_fact_order_items(df_items, orders_enriched, df_payments):
 
     fact_order_items = (
             df_items
@@ -208,15 +208,14 @@ def make_fact_order_items(df_items, orders_enriched, df_payments, df_reviews):
     return fact_order_items      
     
     
-def make_fact_orders(orders_enriched, df_payments, df_reviews):
+def make_fact_orders(orders_enriched, df_payments, df_reviews_dim):
 
     payments_per_order = calc_payments_per_order(df_payments)
-    reviews = prepare_reviews(df_reviews)
 
     fact_orders = (
         orders_enriched
         .join(payments_per_order, "order_id", "left")
-        .join(reviews, "order_id", "left")
+        .join(df_reviews_dim, "order_id", "left")
         .select(
             "order_id",
             
@@ -292,6 +291,8 @@ def main():
     
     df_location_dim = make_location_dim(df_customers, df_sellers)
     
+    df_reviews_dim = make_reviews_dim(df_reviews)
+    
     logger.info(f"Измерения подготовлены")   
     
     
@@ -307,8 +308,8 @@ def main():
     
     orders_enriched = make_orders_enriched(df_orders, df_customers)
     
-    df_fact_order_items = make_fact_order_items(df_items, orders_enriched, df_payments, df_reviews)  
-    df_fact_orders =  make_fact_orders(orders_enriched, df_payments, df_reviews)  
+    df_fact_order_items = make_fact_order_items(df_items, orders_enriched, df_payments)  
+    df_fact_orders =  make_fact_orders(orders_enriched, df_payments, df_reviews_dim)  
     
     logger.info(f"Таблицы фактов подготовлены") 
     
@@ -316,6 +317,7 @@ def main():
     table_df_list = [("dim_customer", df_customer_dim), ("dim_product", df_product_dim),
                     ("dim_seller", df_seller_dim), ("dim_location", df_location_dim),
                     ("dim_delivery", df_delivery_dim),
+                    ("dim_reviews", df_reviews_dim),
                     ("fact_order_items", df_fact_order_items),
                     ("fact_orders", df_fact_orders)
                     ]
