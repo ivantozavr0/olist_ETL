@@ -330,11 +330,6 @@ DAG
 └── docker-compose.yml  
 
 
-## Примеры работы программы
-
-<скриншоты airflow и дашбордов Metabase>
-
-
 ## Dataset
 
 Проект использует Olist E-commerce dataset.
