@@ -160,6 +160,34 @@ Airflow DAG: airflow/dags/master_dag.py
 
 **Все этапы пайплайна логируются.** См. jobs-logs/. Логи самого Airflow доступны по пути airflow/airflow-logs.
 
+Пример удачно отработавшего DAG
+![Пример удачно отработавшего DAG](docs/airflow_dag.png)
+
+![Граф Airflow](docs/air_graph.png)
+
+## Запуск проекта
+
+1) git clone https://github.com/ivantozavr0/olist_ETL.git
+2) cd olist_ETL
+3) docker-compose up -d
+
+Будут запущены следующие сервисы:
+- Spark (master + 2 workers)
+- Airflow 
+- MinIO
+- Metabase 
+
+4) Откройте Airflow http://localhost:8085 (откроется не сразу необходимо подождать окончания настройки) и **запустите задачи master_dag**. Логин: admin, пароль: admin.
+
+5) Откройте Metabase http://localhost:3000. 
+Логин: example@mail.com, пароль: metabase1.  
+
+**Пройдите по пути "Коллекции" -> "Ваша личная коллекция" -> "Метрики Olist".**
+
+6) Интерфейс ClickHouse доступен по адресу http://localhost:8123.
+
+7) Интерфейс MinIO доступен по адресу http://localhost:9001.
+
 
 ## Структура проекта
 
@@ -202,29 +230,6 @@ Airflow DAG: airflow/dags/master_dag.py
 │
 └── docker-compose.yml  
 
-
-## Запуск проекта
-
-1) git clone https://github.com/ivantozavr0/olist_ETL.git
-2) cd olist_ETL
-3) docker-compose up -d
-
-Будут запущены следующие сервисы:
-- Spark (master + 2 workers)
-- Airflow 
-- MinIO
-- Metabase 
-
-4) Откройте Airflow http://localhost:8085 (откроется не сразу необходимо подождать окончания настройки) и **запустите задачи master_dag**. Логин: admin, пароль: admin.
-
-5) Откройте Metabase http://localhost:3000. 
-Логин: example@mail.com, пароль: metabase1.  
-
-**Пройдите по пути "Коллекции" -> "Ваша личная коллекция" -> "Метрики Olist".**
-
-6) Интерфейс ClickHouse доступен по адресу http://localhost:8123.
-
-7) Интерфейс MinIO доступен по адресу http://localhost:9001.
 
 ## Примеры работы программы
 
